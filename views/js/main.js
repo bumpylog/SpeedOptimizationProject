@@ -448,12 +448,24 @@ var resizePizzas = function(size) {
     return dx;
   }
 
+  //Style is being changed after layout runs here!
   // Iterates through pizza elements on the page and changes their widths
+  //Could put dx and width info in an array and then update styles using array
   function changePizzaSizes(size) {
+    console.log("changePizzaSizes called")
+    var info = [];
+    var dx;
+    var newwidth;
+    for(var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
+      dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
+      newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+      info.push(newwidth);
+    }
+
     for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+      //var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
+      //var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+      document.querySelectorAll(".randomPizzaContainer")[i].style.width = info.pop();
     }
   }
 
@@ -503,8 +515,10 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
+  //Got layer info outside of for loop. This seems to have sped up pizza movement by quite a bit.
+  var topdist = document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    var phase = Math.sin((topdist/ 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -521,6 +535,7 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
+//Style is being altered after layout runs here!
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
