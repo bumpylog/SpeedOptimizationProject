@@ -432,11 +432,11 @@ var resizePizzas = function(size) {
     function sizeSwitcher (size) {
       switch(size) {
         case "1":
-          return 0.25;
+          return 25;
         case "2":
-          return 0.3333;
+          return 33.33;
         case "3":
-          return 0.5;
+          return 50;
         default:
           console.log("bug in sizeSwitcher");
       }
@@ -452,20 +452,23 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   //Could put dx and width info in an array and then update styles using array
   function changePizzaSizes(size) {
+    var newwidth;
+    switch(size) {
+        case "1":
+          newwidth =  25;
+        case "2":
+          newwidth = 33.33;
+        case "3":
+          newwidth =  50;
+        default:
+          console.log("bug in sizeSwitcher");
+      }
+
     console.log("changePizzaSizes called")
     var info = [];
-    var dx;
-    var newwidth;
-    for(var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      info.push(newwidth);
-    }
-
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      //var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      //var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = info.pop();
+    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+    for(var i = 0; i < randomPizzas.length; i++){
+      randomPizzas[i].style.width = newwidth + "%";
     }
   }
 
