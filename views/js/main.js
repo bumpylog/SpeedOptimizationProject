@@ -421,56 +421,31 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldwidth = elem.offsetWidth;
-    var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldsize = oldwidth / windowwidth;
-
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 25;
-        case "2":
-          return 33.33;
-        case "3":
-          return 50;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
+// Iterates through pizza elements on the page and changes their widths
+function changePizzaSizes(size) {
+  //There is a bug in here
+  //Choose which size the pizza should be
+  console.log("Size is:" + size);
+  var mysize;
+  switch(size) {
+      case "1":
+        mysize =  25;
+        break;
+      case "2":
+        mysize = 33.33;
+        break;
+      case "3":
+        mysize =  50;
+        break;
+      default:
+        console.log("bug in sizeSwitcher");
     }
-
-    var newsize = sizeSwitcher(size);
-    var dx = (newsize - oldsize) * windowwidth;
-
-    return dx;
-  }
-
-  //Style is being changed after layout runs here!
-  // Iterates through pizza elements on the page and changes their widths
-  //Could put dx and width info in an array and then update styles using array
-  function changePizzaSizes(size) {
-    var newwidth;
-    switch(size) {
-        case "1":
-          newwidth =  25;
-        case "2":
-          newwidth = 33.33;
-        case "3":
-          newwidth =  50;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-
-    console.log("changePizzaSizes called")
-    var info = [];
-    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
-    for(var i = 0; i < randomPizzas.length; i++){
-      randomPizzas[i].style.width = newwidth + "%";
-    }
-  }
+  
+  var info = [];
+  var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+  for(var i = 0; i < randomPizzas.length; i++){
+    randomPizzas[i].style.width = mysize + "%";  }
+}
 
   changePizzaSizes(size);
 
@@ -538,7 +513,6 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-//Style is being altered after layout runs here!
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
